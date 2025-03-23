@@ -13,6 +13,6 @@
 - Your Macronutrient
 - And a 7-day meal Plan
 
-This project is conected with [BetterFAST](https://betterfast.in/)).
+This project is conected with [BetterFAST](https://betterfast.in/)
 
 
