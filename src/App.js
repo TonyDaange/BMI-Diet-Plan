@@ -88,45 +88,46 @@ export default function BMICalculator() {
     <div className="container mt-4">
       <div className="card shadow p-4">
         <h2 className="text-center mb-4">BMI, TDEE & Macronutrient Calculator</h2>
+        <div className='d-flex justify-content-center'>
+          <div className="mb-3 d-flex" >
+            <label className="form-label" style={{ fontSize: "25px" }} >Weight(kg):</label>
+            <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className="form-control" style={{ width: "100px", marginLeft: "10px", height: "47px" }} />
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Weight (kg):</label>
-          <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className="form-control" />
+          <div className="mb-3 d-flex" >
+            <label className="form-label" style={{ marginLeft: "20px", fontSize: "25px" }}>Height:</label>
+            <select value={heightUnit} onChange={(e) => setHeightUnit(e.target.value)} className="form-select mb-2" style={{ width: "200px", marginLeft: "10px" }}>
+              <option value="metric">Metric (cm)</option>
+              <option value="imperial">Imperial (ft, in)</option>
+            </select>
+
+            {heightUnit === "metric" ? (
+              <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} className="form-control" style={{ width: "100px", marginLeft: "10px", height: "47px" }} />
+            ) : (
+              <div className="d-flex">
+                <input type="number" value={heightFeet} onChange={(e) => setHeightFeet(e.target.value)} className="form-control me-2" placeholder="Feet" style={{ width: "57px", marginLeft: "10px", height: "47px" }} />
+                <input type="number" value={heightInches} onChange={(e) => setHeightInches(e.target.value)} className="form-control" placeholder="Inches" style={{ width: "57px", marginLeft: "0px", height: "47px" }} />
+              </div>
+            )}
+          </div>
+
+          <div className="mb-3 d-flex">
+            <label className="form-label" style={{ marginLeft: "20px", fontSize: "25px" }}>Age:</label>
+            <input type="number" value={age} onChange={(e) => setAge(e.target.value)} className="form-control" style={{ width: "70px", marginLeft: "10px", height: "47px" }} />
+          </div>
+
+          <div className="mb-3 d-flex">
+            <label className="form-label" style={{ marginLeft: "20px", fontSize: "25px" }}>Gender:</label>
+            <select value={gender} onChange={(e) => setGender(e.target.value)} className="form-select" style={{ width: "125px", marginLeft: "10px", height: "47px" }}>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Height:</label>
-          <select value={heightUnit} onChange={(e) => setHeightUnit(e.target.value)} className="form-select mb-2">
-            <option value="metric">Metric (cm)</option>
-            <option value="imperial">Imperial (ft, in)</option>
-          </select>
-
-          {heightUnit === "metric" ? (
-            <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} className="form-control" />
-          ) : (
-            <div className="d-flex">
-              <input type="number" value={heightFeet} onChange={(e) => setHeightFeet(e.target.value)} className="form-control me-2" placeholder="Feet" />
-              <input type="number" value={heightInches} onChange={(e) => setHeightInches(e.target.value)} className="form-control" placeholder="Inches" />
-            </div>
-          )}
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Age:</label>
-          <input type="number" value={age} onChange={(e) => setAge(e.target.value)} className="form-control" />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Gender:</label>
-          <select value={gender} onChange={(e) => setGender(e.target.value)} className="form-select">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Activity Level:</label>
-          <select value={activityLevel} onChange={(e) => setActivityLevel(parseFloat(e.target.value))} className="form-select">
+        <div className="mb-3 d-flex justify-content-center">
+          <label className="form-label" style={{ fontSize: "25px" }}>Activity Level:</label>
+          <select value={activityLevel} onChange={(e) => setActivityLevel(parseFloat(e.target.value))} className="form-select" style={{ width: "450px", marginLeft: "10px" }}>
             <option value="1.2">Sedentary (Little to no exercise)</option>
             <option value="1.375">Lightly Active (1-3 days/week)</option>
             <option value="1.55">Moderately Active (3-5 days/week)</option>
@@ -135,26 +136,33 @@ export default function BMICalculator() {
           </select>
         </div>
 
+
         <div className="d-flex justify-content-center">
           <button onClick={calculateAll} className="cal btn btn-primary"> Calculate</button>
         </div>
+        <div className="d-flex justify-content-between my-4">
+          {bmi && tdee && minWeight && maxWeight && (
+            <div>
+              <p className="mt-4">Your BMI: <strong >{bmi}</strong>
+                <button disabled={true} className={`btn-${bmiColor}`} style={{ marginLeft: "10px" }}>{bmiCategory}</button></p>
+              <p className="mt-2">Your TDEE: <strong>{tdee} kcal per day</strong></p>
+              <p className="mt-2">Your Ideal Weight: <strong>{minWeight} kg - {maxWeight} kg</strong></p>
+            </div>
+          )}
 
-        {bmi && <p className="mt-4">Your BMI: <strong>{bmi}</strong> <button disabled={true} className={`btn-${bmiColor}`}>{bmiCategory}</button></p>}
-        {tdee && <p className="mt-2">Your TDEE: <strong>{tdee} kcal per day</strong></p>}
-        {minWeight && maxWeight && <p className="mt-2">Your Ideal Weight: <strong>{minWeight} kg - {maxWeight} kg</strong></p>}
-
-        {protein && fats && carbs && (
-          <div>
-            <h6>Macronutrient</h6>
-            <p>{text}</p>
-            <p>Protein: <strong>{protein} g</strong></p>
-            <p>Fats: <strong>{fats} g</strong></p>
-            <p>Carbs: <strong>{carbs} g</strong></p>
-          </div>
-        )}
+          {protein && fats && carbs && (
+            <div className='justify-content-end'>
+              <h6>Macronutrient</h6>
+              <p>{text}</p>
+              <p>Protein: <strong>{protein} g</strong></p>
+              <p>Fats: <strong>{fats} g</strong></p>
+              <p>Carbs: <strong>{carbs} g</strong></p>
+            </div>
+          )}
+        </div>
       </div>
 
       <DietForm tdee={tdee} protein={protein} fats={fats} carbs={carbs} />
-    </div>
+    </div >
   );
 }
