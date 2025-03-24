@@ -57,13 +57,36 @@ export default function BMICalculator() {
     setTdee(Math.ceil(tdeeValue));
 
     if (category === "Underweight") {
-      setText(`These macronutrient values reflect your bulking calories of ${tdeeValue + 500} calories per day.`);
+      setText(
+        <>
+          These macronutrient values reflect your bulking calories
+          <br />
+          of {tdeeValue + 500} calories per day,
+          which is + 500 calories per day
+          <br />
+          from your maintenance of {tdeeValue} calories per day.
+        </>
+      );
       tdeeValue += 500;
     } else if (category === "Overweight" || category === "Obese") {
-      setText(`These macronutrient values reflect your cutting calories of ${tdeeValue - 500} calories per day.`);
+      setText(
+        <>
+          These macronutrient values reflect your cutting calories
+          <br />
+          of {tdeeValue - 500} calories per day, which is a 500 calorie per day
+          <br />
+          deficit from your maintenance of {tdeeValue} calories per day.
+        </>
+      );
       tdeeValue -= 500;
     } else {
-      setText(`These macronutrient values reflect your maintenance calories of ${tdeeValue} calories per day.`);
+      setText(
+        <>
+          These macronutrient values reflect your maintenance
+          <br />
+          calories of ${tdeeValue} calories per day.
+        </>
+      );
     }
 
     setProtein(Math.ceil((0.3 * tdeeValue) / 4));
@@ -151,7 +174,7 @@ export default function BMICalculator() {
           )}
 
           {protein && fats && carbs && (
-            <div className='justify-content-end'>
+            <div className='text-end my-4'>
               <h6>Macronutrient</h6>
               <p>{text}</p>
               <p>Protein: <strong>{protein} g</strong></p>
